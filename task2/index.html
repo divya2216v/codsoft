@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicWave - Advanced Music Streaming</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+        
+        .song-card:hover .play-btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .progress-bar {
+            -webkit-appearance: none;
+            height: 6px;
+            background: #334155;
+            border-radius: 10px;
+        }
+        
+        .progress-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+        }
+        
+        .wave-animation {
+            animation: wave 1.5s infinite ease-in-out;
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: scaleY(0.5); }
+            50% { transform: scaleY(1.5); }
+        }
+        
+        .blur-bg {
+            backdrop-filter: blur(10px);
+            background-color: rgba(15, 23, 42, 0.7);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Main Container -->
+    <div class="flex flex-col min-h-screen">
+        <!-- Header -->
+        <header class="gradient-bg py-4 px-6 sticky top-0 z-50 blur-bg">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="text-3xl font-bold text-blue-400 flex items-center">
+                        <i class="fas fa-music mr-2"></i>
+                        <span>MusicWave</span>
+                    </div>
+                    <nav class="hidden md:flex space-x-6">
+                        <a href="#" class="text-blue-400 font-medium">Home</a>
+                        <a href="#" class="hover:text-blue-400 transition">Charts</a>
+                        <a href="#" class="hover:text-blue-400 transition">Radio</a>
+                        <a href="#" class="hover:text-blue-400 transition">Genres</a>
+                        <a href="#" class="hover:text-blue-400 transition">Podcasts</a>
+                    </nav>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="relative hidden md:block">
+                        <input type="text" placeholder="Search songs, artists..." 
+                               class="bg-slate-800 rounded-full py-2 px-4 pl-10 w-64 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <i class="fas fa-search absolute left-3 top-3 text-slate-400"></i>
+                    </div>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full font-medium transition">
+                        Sign In
+                    </button>
+                    <button class="md:hidden text-xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Mobile Menu -->
+        <div class="md:hidden bg-slate-800 py-2 px-4 hidden" id="mobileMenu">
+            <div class="flex flex-col space-y-3">
+                <a href="#" class="text-blue-400 font-medium">Home</a>
+                <a href="#" class="text-white">Charts</a>
+                <a href="#" class="text-white">Radio</a>
+                <a href="#" class="text-white">Genres</a>
+                <a href="#" class="text-white">Podcasts</a>
+                <div class="relative mt-2">
+                    <input type="text" placeholder="Search..." 
+                           class="bg-slate-700 rounded-full py-2 px-4 pl-10 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <i class="fas fa-search absolute left-3 top-3 text-slate-400"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <main class="flex-grow p-6">
+            <!-- Hero Section -->
+            <section class="mb-10 relative rounded-xl overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-purple-900/80"></div>
+                <div class="relative z-10 p-8 md:p-12 lg:p-16">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Discover Your Next Favorite Song</h1>
+                    <p class="text-xl md:text-2xl mb-8 max-w-2xl">Stream millions of songs, podcasts, and playlists. Anytime, anywhere.</p>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium text-lg transition flex items-center">
+                        <i class="fas fa-play mr-2"></i> Play Now
+                    </button>
+                </div>
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                     alt="Music concert" class="absolute inset-0 w-full h-full object-cover -z-10">
+            </section>
+            
+            <!-- Featured Playlists -->
+            <section class="mb-10">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold">Featured Playlists</h2>
+                    <a href="#" class="text-blue-400 hover:underline">See All</a>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                    <!-- Playlist Card 1 -->
+                    <div class="song-card relative group rounded-xl overflow-hidden bg-slate-800 hover:bg-slate-700 transition cursor-pointer">
+                        <div class="relative">
+                            <img src="https://i.scdn.co/image/ab67706f00000002ca5a7517a89e500d9b1aaf9a" 
+                                 alt="Today's Top Hits" class="w-full aspect-square object-cover">
+                            <button class="play-btn absolute bottom-2 right-2 bg-blue-600 text-white rounded-full p-3 opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition">
+                                <i class="fas fa-play text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-medium truncate">Today's Top Hits</h3>
+                            <p class="text-sm text-slate-400">Various Artists</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Playlist Card 2 -->
+                    <div class="song-card relative group rounded-xl overflow-hidden bg-slate-800 hover:bg-slate-700 transition cursor-pointer">
+                        <div class="relative">
+                            <img src="https://i.scdn.co/image/ab67706f00000002a980b152e708b33c6518d464" 
+                                 alt="Bollywood Butter" class="w-full aspect-square object-cover">
+                            <button class="play-btn absolute bottom-2 right-2 bg-blue-600 text-white rounded-full p-3 opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition">
+                                <i class="fas fa-play text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-medium truncate">Bollywood Butter</h3>
+                            <p class="text-sm text-slate-400">Various Artists</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Playlist Card 3 -->
+                    <div class="song-card relative group rounded-xl overflow-hidden bg-slate-800 hover:bg-slate-700 transition cursor-pointer">
+                        <div class="relative">
+                            <img src="https://i.scdn.co/image/ab67706f00000002f16913f53227b189b75c0e6a" 
+                                 alt="Punjabi 101" class="w-full aspect-square object-cover">
+                            <button class="play-btn absolute bottom-2 right-2 bg-blue-600 text-white rounded-full p-3 opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition">
+                                <i class="fas fa-play text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-medium truncate">Punjabi 101</h3>
+                            <p class="text-sm text-slate-400">Various Artists</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Playlist Card 4 -->
+                    <div class="song-card relative group rounded-xl overflow-hidden bg-slate-800 hover:bg-slate-700 transition cursor-pointer">
+                        <div class="relative">
+                            <img src="https://i.scdn.co/image/ab67706f00000002d72ef75e14ca6f60ea2363c2" 
+                                 alt="Indie India" class="w-full aspect-square object-cover">
+                            <button class="play-btn absolute bottom-2 right-2 bg-blue-600 text-white rounded-full p-3 opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition">
+                                <i class="fas fa-play text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-medium truncate">Indie India</h3>
+                            <p class="text-sm text-slate-400">Various Artists</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Playlist Card 5 -->
+                    <div class="song-card relative group rounded-xl overflow-hidden bg-slate-800 hover:bg-slate-700 transition cursor-pointer">
+                        <div class="relative">
+                            <img src="https://i.scdn.co/image/ab67706f00000002d73a0e7159c0c0f7d339e3b1" 
+                                 alt="Romantic Hits" class="w-full aspect-square object-cover">
+                            <button class="play-btn absolute bottom-2 right-2 bg-blue-600 text-white rounded-full p-3 opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition">
+                                <i class="fas fa-play text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-medium truncate">Romantic Hits</h3>
+                            <p class="text-sm text-slate-400">Various Artists</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Playlist Card 6 -->
+                    <div class="song-card relative group rounded-xl overflow-hidden bg-slate-800 hover:bg-slate-700 transition cursor-pointer">
+                        <div class="relative">
+                            <img src="https://i.scdn.co/image/ab67706f00000002c414e7d202426b7b7c0c3a1b" 
+                                 alt="Workout Energy" class="w-full aspect-square object-cover">
+                            <button class="play-btn absolute bottom-2 right-2 bg-blue-600 text-white rounded-full p-3 opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition">
+                                <i class="fas fa-play text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-medium truncate">Workout Energy</h3>
+                            <p class="text-sm text-slate-400">Various Artists</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Top Charts -->
+            <section class="mb-10">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold">Top Charts</h2>
+                    <a href="#" class="text-blue-400 hover:underline">See All</a>
+                </div>
+                <div class="bg-slate-800 rounded-xl overflow-hidden">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+                        <!-- Chart 1 -->
+                        <div class="bg-slate-700/50 rounded-lg p-4 hover:bg-slate-700 transition cursor-pointer">
+                            <div class="flex items-center space-x-4">
+                                <div class="relative">
+                                    <img src="https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228" 
+                                         alt="Album cover" class="w-16 h-16 rounded-md">
+                                    <span class="absolute -top-2 -left-2 bg-blue-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">1</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium">Pasoori Nu</h3>
+                                    <p class="text-sm text-slate-400">Arijit Singh</p>
+                                </div>
+                                <div class="ml-auto text-slate-400">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Chart 2 -->
+                        <div class="bg-slate-700/50 rounded-lg p-4 hover:bg-slate-700 transition cursor-pointer">
+                            <div class="flex items-center space-x-4">
+                                <div class="relative">
+                                    <img src="https://i.scdn.co/image/ab67616d00001e02a91c11fe1d90a0a7b6ff6c9e" 
+                                         alt="Album cover" class="w-16 h-16 rounded-md">
+                                    <span class="absolute -top-2 -left-2 bg-blue-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">2</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium">Kesariya</h3>
+                                    <p class="text-sm text-slate-400">Arijit Singh</p>
+                                </div>
+                                <div class="ml-auto text-slate-400">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Chart 3 -->
+                        <div class="bg-slate-700/50 rounded-lg p-4 hover:bg-slate-700 transition cursor-pointer">
+                            <div class="flex items-center space-x-4">
+                                <div class="relative">
+                                    <img src="https://i.scdn.co/image/ab67616d00001e02d9194aa18fa4c9362b47464f" 
+                                         alt="Album cover" class="w-16 h-16 rounded-md">
+                                    <span class="absolute -top-2 -left-2 bg-blue-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">3</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium">Raataan Lambiyan</h3>
+                                    <p class="text-sm text-slate-400">Tanishk Bagchi</p>
+                                </div>
+                                <div class="ml-auto text-slate-400">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Chart 4 -->
+                        <div class="bg-slate-700/50 rounded-lg p-4 hover:bg-slate-700 transition cursor-pointer">
+                            <div class="flex items-center space-x-4">
+                                <div class="relative">
+                                    <img src="https://i.scdn.co/image/ab67616d00001e02c6a4cab1e654a476d00c7c3d" 
+                                         alt="Album cover" class="w-16 h-16 rounded-md">
+                                    <span class="absolute -top-2 -left-2 bg-blue-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">4</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium">Tere Vaaste</h3>
+                                    <p class="text-sm text-slate-400">Sachin-Jigar</p>
+                                </div>
+                                <div class="ml-auto text-slate-400">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Chart 5 -->
+                        <div class="bg-slate-700/50 rounded-lg p-4 hover:bg-slate-700 transition cursor-pointer">
+                            <div class="flex items-center space-x-4">
+                                <div class="relative">
+                                    <img src="https://i.scdn.co/image/ab67616d00001e02e6f407c7f3a0ec98845e4431" 
+                                         alt="Album cover" class="w-16 h-16 rounded-md">
+                                    <span class="absolute -top-2 -left-2 bg-blue-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">5</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium">Naa Ready</h3>
+                                    <p class="text-sm text-slate-400">Anirudh Ravichander</p>
+                                </div>
+                                <div class="ml-auto text-slate-400">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Chart 6 -->
+                        <div class="bg-slate-700/50 rounded-lg p-4 hover:bg-slate-700 transition cursor-pointer">
+                            <div class="flex items-center space-x-4">
+                                <div class="relative">
+                                    <img src="https://i.scdn.co/image/ab67616d00001e02c5a3f48d78c5c6affa36f0c9" 
+                                         alt="Album cover" class="w-16 h-16 rounded-md">
+                                    <span class="absolute -top-2 -left-2 bg-blue-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">6</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium">Kalaastar</h3>
+                                    <p class="text-sm text-slate-400">Yo Yo Honey Singh</p>
+                                </div>
+                                <div class="ml-auto text-slate-400">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- New Releases -->
+            <section class="mb-10">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold">New Releases</h2>
+                    <a href="#" class="text-blue-400 hover:underline">See All</a>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                    <!-- Album 1 -->
+                    <div class="song-card relative group rounded-xl overflow-hidden bg-slate-800 hover:bg-slate-700 transition cursor-pointer">
+                        <div class="relative">
+                            <img src="https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228" 
+                                 alt="Album cover" class="w-full aspect-square object-cover">
+                            <button class="play-btn absolute bottom-2 right-2 bg-blue-600 text-white rounded-full p-3 opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition">
+                                <i class="fas fa-play text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-medium truncate">Pasoori Nu</h3>
+                            <p class="text-sm text-slate-400">Arijit Singh</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Album 2 -->
+                    <div class="song-card relative group rounded-xl overflow-hidden bg-slate-800 hover:bg-slate-700 transition cursor-pointer">
+                        <div class="relative">
+                            <img src="https://i.scdn.co/image/ab67616d00001e02a91c11fe1d90a0a7b6ff6c9e" 
+                                 alt="Album cover" class="w-full aspect-square object-cover">
+                            <button class="play-btn absolute bottom-2 right-2 bg-blue-600 text-white rounded-full p-3 opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition">
+                                <i class="fas fa-play text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-medium truncate">Kesariya</h3>
+                            <p class="text-sm text-slate-400">Arijit Singh</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Album 3 -->
+                    <div class="song-card relative group rounded-xl overflow-hidden bg-slate-800 hover:bg-slate-700 transition cursor-pointer">
+                        <div class="relative">
+                            <img src="https://i.scdn.co/image/ab67616d00001e02d9194aa18fa4c9362b47464f" 
+                                 alt="Album cover" class="w-full aspect-square object-cover">
+                            <button class="play-btn absolute bottom-2 right-2 bg-blue-600 text-white rounded-full p-3 opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition">
+                                <i class="fas fa-play text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-medium truncate">Raataan Lambiyan</h3>
+                            <p class="text-sm text-slate-400">Tanishk Bagchi</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Album 4 -->
+                    <div class="song-card relative group rounded-xl overflow-hidden bg-slate-800 hover:bg-slate-700 transition cursor-pointer">
+                        <div class="relative">
+                            <img src="https://i.scdn.co/image/ab67616d00001e02c6a4cab1e654a476d00c7c3d" 
+                                 alt="Album cover" class="w-full aspect-square object-cover">
+                            <button class="play-btn absolute bottom-2 right-2 bg-blue-600 text-white rounded-full p-3 opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition">
+                                <i class="fas fa-play text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-medium truncate">Tere Vaaste</h3>
+                            <p class="text-sm text-slate-400">Sachin-Jigar</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Album 5 -->
+                    <div class="song-card relative group rounded-xl overflow-hidden bg-slate-800 hover:bg-slate-700 transition cursor-pointer">
+                        <div class="relative">
+                            <img src="https://i.scdn.co/image/ab67616d00001e02e6f407c7f3a0ec98845e4431" 
+                                 alt="Album cover" class="w-full aspect-square object-cover">
+                            <button class="play-btn absolute bottom-2 right-2 bg-blue-600 text-white rounded-full p-3 opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition">
+                                <i class="fas fa-play text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-medium truncate">Naa Ready</h3>
+                            <p class="text-sm text-slate-400">Anirudh Ravichander</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Album 6 -->
+                    <div class="song-card relative group rounded-xl overflow-hidden bg-slate-800 hover:bg-slate-700 transition cursor-pointer">
+                        <div class="relative">
+                            <img src="https://i.scdn.co/image/ab67616d00001e02c5a3f48d78c5c6affa36f0c9" 
+                                 alt="Album cover" class="w-full aspect-square object-cover">
+                            <button class="play-btn absolute bottom-2 right-2 bg-blue-600 text-white rounded-full p-3 opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition">
+                                <i class="fas fa-play text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-medium truncate">Kalaastar</h3>
+                            <p class="text-sm text-slate-400">Yo Yo Honey Singh</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Moods & Genres -->
+            <section class="mb-10">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold">Moods & Genres</h2>
+                    <a href="#" class="text-blue-400 hover:underline">See All</a>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                    <!-- Mood 1 -->
+                    <div class="relative rounded-xl overflow-hidden h-32 group cursor-pointer">
+                        <img src="https://i.scdn.co/image/ab67706f00000002a76a2ccb454ff0e1720a51a5" 
+                             alt="Happy" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <h3 class="font-bold text-white">Happy</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Mood 2 -->
+                    <div class="relative rounded-xl overflow-hidden h-32 group cursor-pointer">
+                        <img src="https://i.scdn.co/image/ab67706f00000002c414e7d202426b7b7c0c3a1b" 
+                             alt="Workout" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <h3 class="font-bold text-white">Workout</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Mood 3 -->
+                    <div class="relative rounded-xl overflow-hidden h-32 group cursor-pointer">
+                        <img src="https://i.scdn.co/image/ab67706f00000002d73a0e7159c0c0f7d339e3b1" 
+                             alt="Romantic" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <h3 class="font-bold text-white">Romantic</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Mood 4 -->
+                    <div class="relative rounded-xl overflow-hidden h-32 group cursor-pointer">
+                        <img src="https://i.scdn.co/image/ab67706f00000002f16913f53227b189b75c0e6a" 
+                             alt="Punjabi" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <h3 class="font-bold text-white">Punjabi</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Mood 5 -->
+                    <div class="relative rounded-xl overflow-hidden h-32 group cursor-pointer">
+                        <img src="https://i.scdn.co/image/ab67706f00000002a980b152e708b33c6518d464" 
+                             alt="Bollywood" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <h3 class="font-bold text-white">Bollywood</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Mood 6 -->
+                    <div class="relative rounded-xl overflow-hidden h-32 group cursor-pointer">
+                        <img src="https://i.scdn.co/image/ab67706f00000002d72ef75e14ca6f60ea2363c2" 
+                             alt="Indie" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <h3 class="font-bold text-white">Indie</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Player Bar -->
+        <div class="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 z-40">
+            <div class="container mx-auto px-4 py-2">
+                <!-- Progress Bar -->
+                <div class="flex items-center mb-1">
+                    <span class="text-xs text-slate-400 w-10">1:23</span>
+                    <input type="range" min="0" max="100" value="45" class="progress-bar flex-grow mx-2">
+                    <span class="text-xs text-slate-400 w-10">3:45</span>
+                </div>
+                
+                <div class="flex items-center">
+                    <!-- Song Info -->
+                    <div class="flex items-center w-1/4">
+                        <img src="https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228" 
+                             alt="Album cover" class="w-12 h-12 rounded-md mr-3">
+                        <div>
+                            <h4 class="font-medium text-sm">Pasoori Nu</h4>
+                            <p class="text-xs text-slate-400">Arijit Singh</p>
+                        </div>
+                        <button class="ml-4 text-slate-400 hover:text-white">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Player Controls -->
+                    <div class="flex items-center justify-center space-x-6 w-2/4">
+                        <button class="text-slate-400 hover:text-white">
+                            <i class="fas fa-random"></i>
+                        </button>
+                        <button class="text-slate-400 hover:text-white">
+                            <i class="fas fa-step-backward"></i>
+                        </button>
+                        <button class="bg-white text-black rounded-full w-8 h-8 flex items-center justify-center hover:scale-105 transition">
+                            <i class="fas fa-pause"></i>
+                        </button>
+                        <button class="text-slate-400 hover:text-white">
+                            <i class="fas fa-step-forward"></i>
+                        </button>
+                        <button class="text-slate-400 hover:text-white">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Volume & Other Controls -->
+                    <div class="flex items-center justify-end space-x-4 w-1/4">
+                        <button class="text-slate-400 hover:text-white">
+                            <i class="fas fa-list"></i>
+                        </button>
+                        <button class="text-slate-400 hover:text-white">
+                            <i class="fas fa-laptop"></i>
+                        </button>
+                        <div class="flex items-center">
+                            <i class="fas fa-volume-down text-slate-400 mr-2"></i>
+                            <input type="range" min="0" max="100" value="80" class="progress-bar w-20">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Mobile menu toggle
+        document.querySelector('header button.md\\:hidden').addEventListener('click', function() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+        
+        // Song card play button animation
+        document.querySelectorAll('.song-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const playBtn = this.querySelector('.play-btn');
+                playBtn.classList.remove('opacity-0', 'translate-y-2');
+                playBtn.classList.add('opacity-100', 'translate-y-0');
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                const playBtn = this.querySelector('.play-btn');
+                playBtn.classList.remove('opacity-100', 'translate-y-0');
+                playBtn.classList.add('opacity-0', 'translate-y-2');
+            });
+        });
+        
+        // Simulate wave animation for currently playing song
+        setInterval(() => {
+            const waveBars = document.querySelectorAll('.wave-animation');
+            waveBars.forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.classList.toggle('wave-animation');
+                }, index * 150);
+            });
+        }, 1500);
+        
+        // Player controls functionality
+        const playPauseBtn = document.querySelector('.player-controls button:nth-child(3)');
+        playPauseBtn.addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('fa-play')) {
+                icon.classList.remove('fa-play');
+                icon.classList.add('fa-pause');
+            } else {
+                icon.classList.remove('fa-pause');
+                icon.classList.add('fa-play');
+            }
+        });
+    </script>
+</body>
+</html>

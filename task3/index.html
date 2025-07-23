@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Scientific Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="calculator">
+            <div class="theme-toggle">
+                <input type="checkbox" id="theme-switch" class="theme-switch">
+                <label for="theme-switch" class="theme-label">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </label>
+            </div>
+            
+            <div class="display">
+                <div class="history"></div>
+                <div class="current-input">0</div>
+            </div>
+            
+            <div class="buttons">
+                <!-- Scientific Functions Row 1 -->
+                <button class="btn function" data-action="clear">AC</button>
+                <button class="btn function" data-action="delete">DEL</button>
+                <button class="btn function" data-action="percent">%</button>
+                <button class="btn operator" data-action="divide">÷</button>
+                
+                <!-- Scientific Functions Row 2 -->
+                <button class="btn function" data-action="sin">sin</button>
+                <button class="btn function" data-action="cos">cos</button>
+                <button class="btn function" data-action="tan">tan</button>
+                <button class="btn operator" data-action="multiply">×</button>
+                
+                <!-- Numbers Row 1 -->
+                <button class="btn number" data-value="7">7</button>
+                <button class="btn number" data-value="8">8</button>
+                <button class="btn number" data-value="9">9</button>
+                <button class="btn operator" data-action="subtract">−</button>
+                
+                <!-- Numbers Row 2 -->
+                <button class="btn number" data-value="4">4</button>
+                <button class="btn number" data-value="5">5</button>
+                <button class="btn number" data-value="6">6</button>
+                <button class="btn operator" data-action="add">+</button>
+                
+                <!-- Numbers Row 3 -->
+                <button class="btn number" data-value="1">1</button>
+                <button class="btn number" data-value="2">2</button>
+                <button class="btn number" data-value="3">3</button>
+                <button class="btn function" data-action="power">x<sup>y</sup></button>
+                
+                <!-- Numbers Row 4 -->
+                <button class="btn number" data-value="0">0</button>
+                <button class="btn number" data-value=".">.</button>
+                <button class="btn function" data-action="sqrt">√</button>
+                <button class="btn equals" data-action="calculate">=</button>
+                
+                <!-- Scientific Functions Row 3 -->
+                <button class="btn function" data-action="log">log</button>
+                <button class="btn function" data-action="ln">ln</button>
+                <button class="btn function" data-action="pi">π</button>
+                <button class="btn function" data-action="e">e</button>
+                
+                <!-- Scientific Functions Row 4 -->
+                <button class="btn function" data-action="factorial">x!</button>
+                <button class="btn function" data-action="abs">|x|</button>
+                <button class="btn function" data-action="exp">EXP</button>
+                <button class="btn function" data-action="ans">ANS</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="background-animation">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
